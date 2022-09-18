@@ -11,8 +11,6 @@ AMainCharacter::AMainCharacter()
 	Camera = CreateDefaultSubobject<UCameraComponent>("CameraComponent");
 	Camera->bUsePawnControlRotation = true;
 	Camera->SetupAttachment(GetRootComponent());
-	bUseControllerRotationPitch = true;
-	bUseControllerRotationYaw = true;
 }
 
 
