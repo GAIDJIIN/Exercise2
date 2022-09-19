@@ -71,6 +71,7 @@ void AMainCharacter::FindInteractableActor()
 		const auto LocalInterface = Cast<IInteractInterface>(LocalHitResult.GetActor());
 		InteractableActor = LocalInterface ? LocalInterface : nullptr;
 	}
+	else{ InteractableActor = nullptr;}
 }
 
 void AMainCharacter::TryInteract()
