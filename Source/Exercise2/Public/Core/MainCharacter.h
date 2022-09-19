@@ -7,6 +7,7 @@
 #include "MainCharacter.generated.h"
 
 class UCameraComponent;
+class IInteractInterface;
 UCLASS()
 class EXERCISE2_API AMainCharacter : public ACharacter
 {
@@ -25,11 +26,18 @@ public:
 	
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	// Get Interact Info
+	UFUNCTION(BlueprintCallable)
+		bool CanInteract() const {return InteractableActor == nullptr ? false : true;}
 private:
 	// Functions for Axis
 	void MoveFB(float axis);
 	void MoveLR(float axis);
 
 	// Action Logic
+	void FindInteractableActor();
 	void TryInteract();
+	
+	// Interact Variables
+	IInteractInterface* InteractableActor = nullptr;
 };

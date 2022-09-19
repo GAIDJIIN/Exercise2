@@ -24,7 +24,7 @@ void AMainCharacter::BeginPlay()
 void AMainCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	FindInteractableActor();
 }
 
 
@@ -57,20 +57,25 @@ void AMainCharacter::MoveLR(float axis)
 }
 
 // Interact Logic
-void AMainCharacter::TryInteract()
+void AMainCharacter::FindInteractableActor()
 {
 	if(!GetWorld()) return;
 	FVector StartTrace;
 	FRotator ViewRotation;
 	GetActorEyesViewPoint(StartTrace,ViewRotation);
-	FVector EndTrace = StartTrace + ViewRotation.Vector()*150.0f;
+	const FVector EndTrace = StartTrace + ViewRotation.Vector()*150.0f;
 	FHitResult LocalHitResult;
 	GetWorld()->LineTraceSingleByChannel(LocalHitResult,StartTrace,EndTrace,ECC_Visibility);
 	if(LocalHitResult.bBlockingHit && LocalHitResult.GetActor())
 	{
 		const auto LocalInterface = Cast<IInteractInterface>(LocalHitResult.GetActor());
-		if(!LocalInterface) return;
-		LocalInterface->Interact();
+		InteractableActor = LocalInterface ? LocalInterface : nullptr;
 	}
+}
+
+void AMainCharacter::TryInteract()
+{
+	if(!InteractableActor) return;
+	InteractableActor->Interact();
 }
 
